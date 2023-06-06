@@ -1,16 +1,23 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loginapp/src/components/my_button.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
-class _LoginPageState extends State<LoginPage> {
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: usernameController.text,
+      password: passwordController.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
             Icon(Icons.android, size: 100),
             Text(
-              'Hello again!',
+              'Snow App',
               style: GoogleFonts.bebasNeue(
                 fontSize: 40,
               ),
@@ -95,24 +102,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
             // signin button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Center(
-                    child: Text(
-                  'Sign In',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                )),
-              ),
+            MyButton(
+              onTap: signUserIn,
             ),
 
             const SizedBox(
